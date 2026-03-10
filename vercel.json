@@ -1,5 +1,0 @@
-{
-  "protection": {
-    "publicRoutes": ["/manifest.json", "/sw.js", "/icon-192.png"]
-  }
-}

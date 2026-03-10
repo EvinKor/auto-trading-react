@@ -29,6 +29,12 @@ class Subscription(BaseModel):
     keys: dict
 
 
+class TriggerPayload(BaseModel):
+    changes: list | None = None
+    title: str | None = None
+    body: str | None = None
+
+
 def load_subs() -> List[dict]:
     if not os.path.exists(SUB_FILE):
         return []
@@ -78,8 +84,16 @@ def add_subscription(sub: Subscription):
 
 
 @router.post("/notify/trigger")
-def trigger(body: dict):
-    changes = body.get("changes", [])
+def trigger(payload: TriggerPayload):
+    title = payload.title
+    message = payload.body
+
+    # If custom title/body provided, push directly (useful for manual tests)
+    if title or message:
+        push_all({"title": title or "Notification", "body": message or ""})
+        return {"sent": 1}
+
+    changes = payload.changes or []
     notify_signal_change(changes)
     return {"sent": len(changes)}
 

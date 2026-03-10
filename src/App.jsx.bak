@@ -8,7 +8,6 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [pushStatus, setPushStatus] = useState('idle')
-  const [lastReset, setLastReset] = useState(null)
   const previousRef = useRef({})
 
   useEffect(() => {
@@ -26,12 +25,11 @@ function App() {
       if (changed.length && 'Notification' in window && Notification.permission === 'granted') {
         new Notification(
           'Signal changed',
-          { body: changed.map((c) => `${c.ticker}: ${prev[c.ticker]}->${c.signal}`).join(', ') },
+          { body: changed.map((c) => `${c.ticker}: ${prev[c.ticker]}→${c.signal}`).join(', ') },
         )
       }
       previousRef.current = Object.fromEntries(data.map((s) => [s.ticker, s.signal]))
       setSignals(data)
-      setLastReset(new Date())
       setError(null)
     } catch (err) {
       setError(err.message || 'Failed to load signals')
@@ -62,7 +60,7 @@ function App() {
           </p>
           <div className="actions">
             <button className="primary" onClick={load} disabled={loading}>
-              {loading ? 'Refreshing...' : 'Refresh signals'}
+              {loading ? 'Refreshing…' : 'Refresh signals'}
             </button>
             <button className="ghost" onClick={handleEnablePush} disabled={pushStatus === 'enabled'}>
               {pushStatus === 'enabled' ? 'Push enabled' : 'Enable Push'}
@@ -76,9 +74,7 @@ function App() {
       <section className="panel">
         <div className="panel-head">
           <h2>Current signals</h2>
-          <span className="muted">
-            {signals.length} tickers{lastReset ? ` · reset ${lastReset.toLocaleString()}` : ''}
-          </span>
+          <span className="muted">{signals.length} tickers</span>
         </div>
         <div className="table-wrap">
           <table>

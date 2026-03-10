@@ -147,6 +147,30 @@ th {
   color: #ffc2c2;
 }
 
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #cdd7f1;
+}
+
+input,
+textarea {
+  background: #0c1224;
+  border: 1px solid #1f2b4a;
+  color: #e8ecf5;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 15px;
+  resize: vertical;
+}
+
 ul {
   margin: 8px 0 0;
   padding-left: 18px;

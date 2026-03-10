@@ -9,6 +9,14 @@ function App() {
   const [error, setError] = useState(null)
   const [pushStatus, setPushStatus] = useState('idle')
   const [lastReset, setLastReset] = useState(null)
+  const [pinnedTickers, setPinnedTickers] = useState(() => {
+    if (typeof window === 'undefined') return []
+    try {
+      return JSON.parse(localStorage.getItem('pinnedTickers') || '[]')
+    } catch {
+      return []
+    }
+  })
   const previousRef = useRef({})
 
   useEffect(() => {
@@ -16,6 +24,12 @@ function App() {
     const id = setInterval(load, 300000) // 5 minutes
     return () => clearInterval(id)
   }, [])
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('pinnedTickers', JSON.stringify(pinnedTickers))
+    }
+  }, [pinnedTickers])
 
   async function load() {
     try {
@@ -39,6 +53,15 @@ function App() {
       setLoading(false)
     }
   }
+
+  function togglePin(ticker) {
+    setPinnedTickers((prev) =>
+      prev.includes(ticker) ? prev.filter((t) => t !== ticker) : [...prev, ticker],
+    )
+  }
+
+  const pinnedSignals = signals.filter((s) => pinnedTickers.includes(s.ticker))
+  const otherSignals = signals.filter((s) => !pinnedTickers.includes(s.ticker))
 
   async function handleEnablePush() {
     try {
@@ -76,6 +99,35 @@ function App() {
 
       {error && <div className="callout error">{error}</div>}
 
+      {pinnedSignals.length > 0 && (
+        <section className="panel">
+          <div className="panel-head">
+            <h2>Pinned</h2>
+            <span className="muted">{pinnedSignals.length} pinned tickers</span>
+          </div>
+          <div className="pinned-grid">
+            {pinnedSignals.map((s) => (
+              <article key={s.ticker} className="pinned-card">
+                <div className="pinned-top">
+                  <div>
+                    <p className="eyebrow">{s.ticker}</p>
+                    <h3>{s.name || '—'}</h3>
+                  </div>
+                  <button className="pin-btn active" onClick={() => togglePin(s.ticker)} aria-label="Unpin">
+                    ★
+                  </button>
+                </div>
+                <div className="pinned-meta">
+                  <span className={`pill ${s.signal?.toLowerCase() || ''}`}>{s.signal || '—'}</span>
+                  <span className="muted">Prob 7d: {s.prob_up_7d != null ? `${(s.prob_up_7d * 100).toFixed(1)}%` : '—'}</span>
+                  <span className="muted">Last close: {s.close != null ? s.close.toFixed(2) : '—'}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
       <section className="panel">
         <div className="panel-head">
           <h2>Current signals</h2>
@@ -87,6 +139,7 @@ function App() {
           <table>
             <thead>
               <tr>
+                <th>Pin</th>
                 <th>Ticker</th>
                 <th>Name</th>
                 <th>Signal</th>
@@ -95,8 +148,17 @@ function App() {
               </tr>
             </thead>
             <tbody>
-              {signals.map((s) => (
+              {[...pinnedSignals, ...otherSignals].map((s) => (
                 <tr key={s.ticker}>
+                  <td>
+                    <button
+                      className={`pin-btn ${pinnedTickers.includes(s.ticker) ? 'active' : ''}`}
+                      onClick={() => togglePin(s.ticker)}
+                      aria-label={pinnedTickers.includes(s.ticker) ? 'Unpin' : 'Pin'}
+                    >
+                      ★
+                    </button>
+                  </td>
                   <td>{s.ticker}</td>
                   <td className="muted">{s.name || '—'}</td>
                   <td>

@@ -135,6 +135,56 @@ th {
   color: #ffd666;
 }
 
+.pin-btn {
+  background: transparent;
+  border: 1px solid #2c3a5a;
+  color: #9cb3ff;
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.pin-btn.active {
+  color: #ffd666;
+  border-color: #ffd66666;
+  background: rgba(255, 214, 102, 0.08);
+}
+
+.pinned-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.pinned-card {
+  background: #0b1224;
+  border: 1px solid #1c2742;
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.pinned-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.pinned-top h3 {
+  margin: 2px 0 0;
+}
+
+.pinned-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 10px;
+}
+
 .callout {
   padding: 12px 14px;
   border-radius: 10px;

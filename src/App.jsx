@@ -67,6 +67,9 @@ function App() {
             <button className="ghost" onClick={handleEnablePush} disabled={pushStatus === 'enabled'}>
               {pushStatus === 'enabled' ? 'Push enabled' : 'Enable Push'}
             </button>
+            <a className="ghost" href="/test-notification">
+              Open test notification page
+            </a>
           </div>
         </div>
       </header>

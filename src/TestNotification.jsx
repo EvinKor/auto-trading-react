@@ -15,7 +15,8 @@ export default function TestNotification() {
       const res = await fetch(`${API}/notify/trigger`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, body }),
+        // Backend expects a "changes" array; send empty for manual tests.
+        body: JSON.stringify({ title, body, changes: [] }),
       })
       if (!res.ok) {
         const txt = await res.text()

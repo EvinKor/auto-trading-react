@@ -1,38 +1,166 @@
-.App {
-  text-align: center;
+#root {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #e8ecf5;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.page {
   display: flex;
   flex-direction: column;
+  gap: 20px;
+}
+
+.hero {
+  background: linear-gradient(120deg, #111c3d, #0b1224 55%, #0b0f1f);
+  border: 1px solid #1e2b4a;
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+
+.eyebrow {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #9cb3ff;
+  margin: 0 0 4px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.lede {
+  color: #c4cee4;
+  margin: 10px 0 16px;
+  max-width: 740px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+button {
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 12px 16px;
+}
+
+.primary {
+  background: #4d7dff;
+  color: #0b1224;
+}
+
+.primary:disabled {
+  opacity: 0.7;
+}
+
+.ghost {
+  background: transparent;
+  color: #cdd7f1;
+  border: 1px solid #2c3a5a;
+}
+
+.panel {
+  background: #0f162c;
+  border: 1px solid #1c2742;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.panel.subtle {
+  background: #0d1426;
+}
+
+.panel-head {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
+  margin-bottom: 12px;
 }
 
-.App-link {
-  color: #61dafb;
+.muted {
+  color: #92a0bf;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #e8ecf5;
+}
+
+th,
+td {
+  padding: 10px 8px;
+  text-align: left;
+  border-bottom: 1px solid #1d2744;
+}
+
+th {
+  color: #9cb3ff;
+  font-weight: 600;
+}
+
+.pill {
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.pill.buy {
+  background: rgba(82, 255, 191, 0.14);
+  color: #52ffbf;
+}
+
+.pill.sell {
+  background: rgba(255, 124, 124, 0.14);
+  color: #ff7c7c;
+}
+
+.pill.hold {
+  background: rgba(255, 214, 102, 0.14);
+  color: #ffd666;
+}
+
+.callout {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #2f3c5c;
+}
+
+.callout.error {
+  background: rgba(255, 124, 124, 0.1);
+  border-color: rgba(255, 124, 124, 0.4);
+  color: #ffc2c2;
+}
+
+ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: #c4cee4;
+}
+
+@media (max-width: 640px) {
+  #root {
+    padding: 20px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .panel-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
   }
 }
